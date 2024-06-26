@@ -11,7 +11,7 @@ This Tester checks:
 **For map parsing:**
 - Rectangular maps
 - No incorrect characters
-- Player and output are not duplicated
+- Duplicated characters
 - Entire map is surrounded by walls
 - Required characters (E, P, C, 1)
 
