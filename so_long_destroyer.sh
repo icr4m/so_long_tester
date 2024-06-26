@@ -23,14 +23,14 @@ check_for_leaks() {
     fi
 
     if [ $LEAKS -eq 1 ]; then
-        printf "${RED}[MKO] LEAKS ${DEF_COLOR}\n"
-        cat valgrind_output.txt
+        printf "${RED}[KO] LEAKS ${DEF_COLOR}\n"
+        # cat valgrind_output.txt
     else
-        printf "${GREEN}[MOK]${DEF_COLOR}\n"
+        printf "${GREEN}[OK]${DEF_COLOR}\n"
     fi
 
     printf "The test: %s\n" "$message"
-    printf "The tested map %s\n" "$map_name"
+    printf "The map: %s\n" "$map_name"
 
     rm valgrind_output.txt
 }
