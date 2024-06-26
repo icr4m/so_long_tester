@@ -45,7 +45,19 @@ done
 check_output(){
     local map_file=$1
     local EXPECTED_OUTPUT="$2"
-    ./so_long "$map_file" > output.txt
+    output=$(./so_long "$map_file")
+
+    {
+        read -r line1
+        read -r line2
+    } <<< "$output"
+    
+    if echo "$line1" | grep -q "Error"; then
+        printf "${GREEN}[OK]${DEF_COLOR} "
+    else
+        printf "${RED}[KO] Expected: Error${DEF_COLOR} "
+    fi
+    printf "\n"
 }
 
 check_for_leaks() {
@@ -62,10 +74,10 @@ check_for_leaks() {
     fi
 
     if [ $LEAKS -eq 1 ]; then
-        printf "${RED}[KO] LEAKS ${DEF_COLOR}\n"
+        printf "${RED}[MKO] LEAKS ${DEF_COLOR}\n"
         # cat valgrind_output.txt
     else
-        printf "${GREEN}[OK]${DEF_COLOR}\n"
+        printf "${GREEN}[MOK]${DEF_COLOR}\n"
     fi
 
     printf "The test: %s\n" "$message"
@@ -73,7 +85,29 @@ check_for_leaks() {
 
     rm valgrind_output.txt
 }
+# Check OUTPUT FOR ERROR MAP
+check_output "bad_map/map1.ber" "Too much exit."
+check_output "bad_map/map2.ber" "Too much start."
+check_output "bad_map/map3.ber" "No exit found."
+check_output "bad_map/map4.ber" "Map contains an empty line."
+check_output "bad_map/map5.ber" "Map contains an empty line."
+check_output "bad_map/map6.ber" "Map contains an empty character."
+check_output "bad_map/map7.ber" "No collectibles found."
+check_output "bad_map/map8.ber" "Map is oo big"
+check_output "bad_map/map9.ber" "No collectibles found."
+check_output "bad_map/map10.ber" "Too much exit."
+check_output "bad_map/map11.ber" "Map contains an empty character."
+check_output "bad_map/map12.ber" "Map is not rectangular."
+check_output "bad_map/map13.ber" "No start found."
+check_output "bad_map/map14.ber" "Unknown character in the map."
+check_output "bad_map/map15.ber" "No path found."
+check_output "bad_map/map16.ber" "No path found."
+check_output "bad_map/map17.ber" "Unknown character in the map."
+check_output "bad_map/map18.ber" "No collectibles found."
+check_output "bad_map/map19.ber" "No exit found."
+check_output "bad_map/map20.ber" "Map is not rectangular."
 
+# Check IF ERROR MAP GOT LEAKS
 check_for_leaks "bad_map/map1.ber" "Too much exit." "map1.ber"
 check_for_leaks "bad_map/map2.ber" "Too much start." "map2.ber"
 check_for_leaks "bad_map/map3.ber" "No exit found." "map3.ber"
