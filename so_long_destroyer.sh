@@ -8,32 +8,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 DEF_COLOR='\033[0m'
 
-
-check_for_leaks() {
-    local map_file=$1
-    local message=$2
-    local map_name=$3
-
-    valgrind --leak-check=full ./so_long "$map_file" > valgrind_output.txt 2>&1
-
-    if grep -q "All heap blocks were freed -- no leaks are possible" valgrind_output.txt; then
-        LEAKS=0
-    else
-        LEAKS=1
-    fi
-
-    if [ $LEAKS -eq 1 ]; then
-        printf "${RED}[KO] LEAKS ${DEF_COLOR}\n"
-        # cat valgrind_output.txt
-    else
-        printf "${GREEN}[OK]${DEF_COLOR}\n"
-    fi
-
-    printf "The test: %s\n" "$message"
-    printf "The map: %s\n" "$map_name"
-
-    rm valgrind_output.txt
-}
+# Create invalids maps
 
 mkdir -p bad_map
 
@@ -66,6 +41,38 @@ for map in "${invalid_maps[@]}"; do
     echo -e "$map" > "$map_file"
     ((i++))
 done
+
+check_output(){
+    local map_file=$1
+    local EXPECTED_OUTPUT="$2"
+    ./so_long "$map_file" > output.txt
+}
+
+check_for_leaks() {
+    local map_file=$1
+    local message=$2
+    local map_name=$3
+
+    valgrind --leak-check=full ./so_long "$map_file" > valgrind_output.txt 2>&1
+
+    if grep -q "All heap blocks were freed -- no leaks are possible" valgrind_output.txt; then
+        LEAKS=0
+    else
+        LEAKS=1
+    fi
+
+    if [ $LEAKS -eq 1 ]; then
+        printf "${RED}[KO] LEAKS ${DEF_COLOR}\n"
+        # cat valgrind_output.txt
+    else
+        printf "${GREEN}[OK]${DEF_COLOR}\n"
+    fi
+
+    printf "The test: %s\n" "$message"
+    printf "The map: %s\n" "$map_name"
+
+    rm valgrind_output.txt
+}
 
 check_for_leaks "bad_map/map1.ber" "Too much exit." "map1.ber"
 check_for_leaks "bad_map/map2.ber" "Too much start." "map2.ber"
