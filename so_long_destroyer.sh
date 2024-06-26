@@ -4,7 +4,7 @@ make re -C ../
 
 clear
 
-valgrind --leak-check=full ./so_long maps/map2.ber > valgrind_output.txt 2>&1
+valgrind --leak-check=full .././so_long maps/map2.ber > valgrind_output.txt 2>&1
 
 if grep -q "All heap blocks were freed -- no leaks are possible" valgrind_output.txt; then
     LEAKS=0
