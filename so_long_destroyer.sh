@@ -1,6 +1,10 @@
 #!/bin/bash
 
-make re
+if [ -f "$so_long" ]; then
+    make re
+else
+    make
+fi
 
 clear
 
