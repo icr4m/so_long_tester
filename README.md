@@ -18,7 +18,7 @@ This Tester checks:
 ## How to execute the tester
 
 ```bash
-git clone git@github.com:icr4m/so_long_tester.git
+git clone https://github.com/icr4m/so_long_tester.git
 ```
 ```bash
 cd so_long_tester && mv so_long_destroyer.sh ../ && chmod 777 ../so_long_destroyer.sh && cd ../
