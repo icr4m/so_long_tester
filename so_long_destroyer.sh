@@ -1,13 +1,5 @@
 #!/bin/bash
 
-if [ -f "$so_long" ]; then
-    make re
-else
-    make
-fi
-
-clear
-
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 DEF_COLOR='\033[0m'
@@ -15,6 +7,17 @@ BLUE='\033[0;94m'
 CYAN='\033[0;96m'
 YELLOW='\033[0;93m'
 MAGENTA='\033[0;95m'
+
+if [ -f "$so_long" ]; then
+    make re
+else
+    make
+fi
+
+if [ $? -ne 0 ]; then
+    printf "${RED}Compilation failed${DEF_COLOR} "
+    exit 1
+fi
 
 # Create invalids maps
 
