@@ -201,6 +201,15 @@ EOF
 
 printf "${DEF_COLOR}"
 
+# Exécution de la commande
+env -i ./so_long TESTgood_map/map1.ber > /dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}OK\n${NC}"
+else
+    echo -e "${RED}KO\n${NC}"
+fi
+
 read -p "Enter the path of the directory where the .xpm files are located: " repertoire
 
 check_leak_images () {
