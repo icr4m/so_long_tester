@@ -5,8 +5,9 @@ This Tester checks:
 - Memory leaks on erroneous maps
 - Valid extensions
 - Permissions
-- Case or xpm failed
+- Case when xpm failed
 - Leaks on good maps
+- Case if mlx_init fail
 
 **For map parsing:**
 - Rectangular maps
